@@ -40,13 +40,13 @@ module GitStats
       end
 
       def authors
-        @authors ||= run_and_parse("git shortlog -se #{commit_range} #{tree_path}").map do |author|
+        @authors ||= run_and_parse("git shortlog --all -se #{commit_range} #{tree_path}").map do |author|
           Author.new(repo: self, name: author[:name], email: author[:email])
         end
       end
 
       def commits
-        @commits ||= run_and_parse("git rev-list --pretty=format:'%H|%at|%ai|%aE' #{commit_range} #{tree_path} | grep -v commit").map do |commit_line|
+        @commits ||= run_and_parse("git rev-list --all --pretty=format:'%H|%at|%ai|%aE' #{commit_range} #{tree_path} | grep -v commit").map do |commit_line|
           Commit.new(
               repo: self,
               sha: commit_line[:sha],

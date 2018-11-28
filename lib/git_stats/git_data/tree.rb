@@ -9,7 +9,7 @@ module GitStats
       attr_reader :repo, :relative_path
 
       def authors
-        @authors ||= run_and_parse("git shortlog -se #{commit_range}").map do |author|
+        @authors ||= run_and_parse("git shortlog --all -se #{commit_range}").map do |author|
           Author.new(repo: self, name: author[:name], email: author[:email])
         end
       end
